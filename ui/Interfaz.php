@@ -1,3 +1,25 @@
+<?php
+//require_once '../funciones/listservicios_1.php';
+session_start();
+$_SESSION["usuario"] = '';
+////require_once('../servicio/funciones_adicionales.php');
+//// Start the session
+//
+date_default_timezone_set('America/Santiago');
+$fecha = date('d/m/Y');
+//if (!isset($_SESSION["usuario"])) {
+//    $_SESSION["usuario"] = $_GET['nombre'];
+//    $_SESSION["rut"] = $_GET['rut'];
+//    $_SESSION["tipo_personal"] = $_GET['tipo_personal'];
+//    $_SESSION["cod_tipo_especialista"] = $_GET['cod_tipo_especialista'];
+//} else {
+//    $_SESSION["usuario"] = $_SESSION["usuario"];
+//    $_SESSION["rut"] = $_SESSION["rut"];
+//    $_SESSION["tipo_personal"] = $_SESSION["tipo_personal"];
+//    $_SESSION["cod_tipo_especialista"] = $_SESSION["cod_tipo_especialista"];
+//}
+//seguridad();
+?>
 <!DOCTYPE html>
 <html  xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
     <head>
@@ -17,7 +39,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
+        <script type="text/javascript" src="js/funcion_serv.js"></script> 
+        <script type="text/javascript" src="js/funcion_sistema.js"></script> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
         <script type="text/javascript">
 
@@ -75,9 +98,31 @@
 
             function cargarModal(elemento)
             {
+                 alert("fdsaf");
                 fila_id = elemento.parentNode.parentNode.parentNode.id;
-                debe = ($("#" + fila_id).children("td:nth-child(7)").text());
-                $("#debe").val(debe);
+               debe = ($("#" + fila_id).children("td:nth-child(7)").text());
+               $("#debe").val(debe);
+              
+            }
+            
+            function calculo_salida(){
+                fecha = $("#fecha").text();
+                hora = $("#hora").val();
+//                rut = $("#rut").val();
+//                telefono = $("#telefono").val();
+               patente = $("#patente").val();
+               // tipo = $("#tipo").val();
+               // servicio = $("#servicio").val();
+//                tipo = $("#tipo :selected").text();
+//                servicio = $("#servicio :selected").text();
+                numero = $("#numero ").val();
+                
+                 data=  'funcion=ingresa&fecha='+fecha+'&hora='+hora+'&patente='+patente+'&tipo='+tipo+'&numero='+numero+'&servicio='+servicio;
+//                
+                 marco = "";
+                 ruta= "../negocio/logicaestac.php";
+//                alert(data);
+                sendajax(marco, ruta, data);
             }
 
 
@@ -115,8 +160,9 @@
 
             }
 
-            function ingresar()
+            function ingresar()//ingresa registro de estacionamiento
             {
+                fecha = $("#fecha").text();
                 hora = $("#hora").val();
 //                rut = $("#rut").val();
 //                telefono = $("#telefono").val();
@@ -180,15 +226,17 @@
                         "</button>" +
                         "</div></td> </tr>");
 
-                alert(hora + patente + tipo + numero + servicio);
-
+           //     alert(fecha + hora + patente + tipo + numero + servicio);
+alert(hora);
                 //sendAjax
+                //data=       'funcion=actualizapaciente&id_paciente='+id_pacientepk+'&identificador=';
 //                data = 'hora' + hora + '&patente=' + patente + '&tipo=' + tipo + '&servicio=' + servicio + '&numero =' + numero;
+                 data=  'funcion=ingresa&fecha='+fecha+'&hora='+hora+'&patente='+patente+'&tipo='+tipo+'&numero='+numero+'&servicio='+servicio;
 //                
-//                marco = "";
-//                ruta = "";
+                 marco = "";
+                 ruta= "../negocio/logicaestac.php";
 //                alert(data);
-//                sendAjax(marco, ruta, data);
+                sendajax(marco, ruta, data);
                 //sendAjax
             }
 
@@ -220,7 +268,7 @@
                 if (bander == 0)
                 {
                     $('#alert').hide();
-                    ingresar();
+                   ingresar();
                 } else {
                     showAlert(msg);
                 }
@@ -309,7 +357,13 @@
                             </h4></div>    
                         <div id="collapse1" class="panel-collapse collapse">
                             <div class="panel-body">
-
+                                <div class=" form-group col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                    <label class="col-lg-2 col-md-3 col-sm-2 col-xs-3">Fecha:</label>
+                                    <div  class="col-lg-6 col-md-6 col-sm-3 col-xs-7">
+                                        <label id="fecha" class="col-lg-2 col-md-3 col-sm-2 col-xs-3"><? echo $fecha; ?></label>
+                                    </div>
+                                     
+                                </div>
                                 <div class=" form-group col-md-12 col-lg-12 col-sm-12 col-xs-12">
                                     <label class="col-lg-2 col-md-3 col-sm-2 col-xs-3">Hora:</label>
                                     <div  class="col-lg-6 col-md-6 col-sm-3 col-xs-7">
