@@ -6,8 +6,8 @@ use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\Printer;
 
-
-$connector = new FilePrintConnector("EPSON20");
+$connector = new FilePrintConnector("Samsung-ML-1860-Series-2");
+//$connector = new FilePrintConnector("EPSON20");
 $printer = new Printer($connector);
 $printer -> text("Hello World!\n");
 $printer -> cut();

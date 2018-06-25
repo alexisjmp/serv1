@@ -98,6 +98,7 @@ $fecha = date('d/m/Y');
 
             function cargarModal(elemento)
             {
+                calculo_salida();
                  alert("fdsaf");
                 fila_id = elemento.parentNode.parentNode.parentNode.id;
                debe = ($("#" + fila_id).children("td:nth-child(7)").text());
@@ -107,8 +108,10 @@ $fecha = date('d/m/Y');
             
             function calculo_salida(){
                 fecha = $("#fecha").text();
-                hora = $("#hora").val();
-//                rut = $("#rut").val();
+                //hora = $("#hora").val();
+                var tiempo = new Date();
+                hora = tiempo.getHours()+':'+tiempo.getMinutes();
+                ////                rut = $("#rut").val();
 //                telefono = $("#telefono").val();
                patente = $("#patente").val();
                // tipo = $("#tipo").val();
@@ -117,9 +120,9 @@ $fecha = date('d/m/Y');
 //                servicio = $("#servicio :selected").text();
                 numero = $("#numero ").val();
                 
-                 data=  'funcion=ingresa&fecha='+fecha+'&hora='+hora+'&patente='+patente+'&tipo='+tipo+'&numero='+numero+'&servicio='+servicio;
+                 data=  'funcion=salidaestac&fecha='+fecha+'&hora='+hora+'&patente='+patente+'&tipo='+tipo+'&numero='+numero+'&servicio='+servicio;
 //                
-                 marco = "";
+                 marco = "aux";
                  ruta= "../negocio/logicaestac.php";
 //                alert(data);
                 sendajax(marco, ruta, data);
@@ -231,7 +234,7 @@ alert(hora);
                 //sendAjax
                 //data=       'funcion=actualizapaciente&id_paciente='+id_pacientepk+'&identificador=';
 //                data = 'hora' + hora + '&patente=' + patente + '&tipo=' + tipo + '&servicio=' + servicio + '&numero =' + numero;
-                 data=  'funcion=ingresa&fecha='+fecha+'&hora='+hora+'&patente='+patente+'&tipo='+tipo+'&numero='+numero+'&servicio='+servicio;
+                 data=  'funcion=ingresoestac&fecha='+fecha+'&hora='+hora+'&patente='+patente+'&tipo='+tipo+'&numero='+numero+'&servicio='+servicio;
 //                
                  marco = "";
                  ruta= "../negocio/logicaestac.php";
@@ -468,7 +471,7 @@ alert(hora);
                                     <div class="col-md-4 col-lg-3 col-sm-3 col-xs-12">
                                         <input type="text" id="patente" class=" form-control" ></input>
                                     </div>
-
+<label id="aux" ></label>  
                                     <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
                                         <button class="btn btn-primary" onclick="">
                                             <span class="glyphicon glyphicon-search" data-toggle="modal" data-target="#myModal"></span>
