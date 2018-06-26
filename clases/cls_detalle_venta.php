@@ -235,6 +235,8 @@ $result =  $this->database->consulta($sql);
 $row = $this->database->fetch_array($result);
 $this->arrdventa[$i]['time_llegada'] = $row['time_llegada'];
 $this->settime_llegada($row['time_llegada']);
+$this->settipo_servicio($row['tipo_servicio']);
+$this->settipo_catvehiculo($row['tipo_catvehiculo']);
 
     
 }
@@ -327,24 +329,30 @@ $this->id_dventa = ""; // clear key for autoincrement
 
 $sql = "INSERT INTO detalle_venta ( patente,id_venta,correlativo_venta,tipo_servicio,tipo_catvehiculo,venta,time_llegada,time_salida,time_registro,time_cantidad,estado_detalle,estado_pagado,observacion_detalle,ubic_tablero ) VALUES ( '$this->patente','$this->id_venta','$this->correlativo_venta','$this->tipo_servicio','$this->tipo_catvehiculo','$this->venta','$this->time_llegada','$this->time_salida','$this->time_registro','$this->time_cantidad','$this->estado_detalle','$this->estado_pagado','$this->observacion_detalle','$this->ubic_tablero' )";
 $result = $this->database->consulta($sql);
-$this->id_dventa = mysql_insert_id($this->database->link);
+$this->id_dventa = mysql_insert_id();
 
 }
 
 // **********************
 // UPDATE
 // **********************
+function updateingreso()
+{
+$id_dventa = $this->getid_dventa();
+$sql = " UPDATE detalle_venta SET  patente = '$this->patente',tipo_servicio = '$this->tipo_servicio',"
+        . "tipo_catvehiculo = '$this->tipo_catvehiculo' WHERE id_dventa = $id_dventa ";
+
+$result = $this->database->consulta($sql);
+
+}
+
 
 function update($id)
 {
 
-
-
 $sql = " UPDATE detalle_venta SET  patente = '$this->patente',id_venta = '$this->id_venta',correlativo_venta = '$this->correlativo_venta',tipo_servicio = '$this->tipo_servicio',tipo_catvehiculo = '$this->tipo_catvehiculo',venta = '$this->venta',time_llegada = '$this->time_llegada',time_salida = '$this->time_salida',time_registro = '$this->time_registro',time_cantidad = '$this->time_cantidad',estado_detalle = '$this->estado_detalle',estado_pagado = '$this->estado_pagado',observacion_detalle = '$this->observacion_detalle',ubic_tablero = '$this->ubic_tablero' WHERE id_dventa = $id ";
 
 $result = $this->database->consulta($sql);
-
-
 
 }
 
