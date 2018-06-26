@@ -175,24 +175,35 @@ function loadDoc(ruta2, data) {
     xhttp.send();
 }
 
-function sendajax(marco, ruta, data) {
-
+function sendajax(marco, ruta, data, opcion) {
+    opc = opcion;
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-
-
-            document.getElementById(marco).innerHTML = "";
+       id = this.responseText;
+          //alert(opc);
+           if(opc == 1){
+                document.getElementById(marco).innerHTML = "";
             document.getElementById(marco).innerHTML = this.responseText;
-
-
-        } else
-            ;
-    };
+           }else if(opc == 2){
+               document.getElementById(marco).innerHTML = "";
+            document.getElementById(marco).innerHTML = this.responseText;
+                ingresar();
+           }else  if(opc == 3){
+                //alert(id);
+                guardado(id);
+           }
+           
+  
+        }
+      
+    }; 
     xhttp.open("POST", ruta, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send(data);
-}
+  
+} 
+
 function cotizar() {
     usuario = $('#lblusuario').text();
     if (usuario != '') {
