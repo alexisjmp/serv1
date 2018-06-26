@@ -1,6 +1,7 @@
 <?php
 
 require_once('../clases/cls_detalle_venta.php');
+require_once('../clases/cls_servicio.php');
 require_once('../servicio/funciones_adicionales.php');
 
 if($_POST['funcion']== 'ingresoestac')
@@ -11,6 +12,20 @@ if($_POST['funcion']== 'salidaestac')
 
 if($_POST['funcion']== 'cargagrilla')
    cargagrilla();
+
+if($_POST['funcion']== 'editaestac')
+   editaestac();
+
+function editaestac(){
+    $me = new cls_detalle_venta();
+    $me->setid_dventa($_POST['id_dventa']);
+    $me->setpatente($_POST['patente']);
+    $me->settipo_servicio($_POST['servicio']);
+    $me->settipo_catvehiculo($_POST['tipo']);
+    
+    $me->updateingreso();
+    echo $me->getid_dventa();
+}
 
 function cargagrilla(){
     $me = new cls_detalle_venta();
@@ -25,9 +40,11 @@ function salidaestac(){
    //$fecha_salida = date('y-m-d', strtotime($fecha_salida." ".$hora_salida))  ;
   
   $me = new cls_detalle_venta();
-  $me->setid_dventa(34);
+  $me->setid_dventa($_POST['id_dventa']);
   $me->msoobtenerregistroxid();
   $fecha_llegada = $me->gettime_llegada();
+  $tipo_servicio = $me->gettipo_servicio();
+  $tipo_catvehiculo = $me->gettipo_catvehiculo();
   
   //echo date('y-m-d H:i:s',(strtotime($fecha_salida) - strtotime($fecha_llegada)) );
   $fechai= date('y-m-d', strtotime($fecha_llegada) );
@@ -37,12 +54,39 @@ function salidaestac(){
     $fecha2 = new DateTime($fecha_salida);
     $resultado = $fecha1->diff($fecha2);
     //echo $resultado->format('%R%a');
-    echo $resultado->format('%a %d %y %H %i');
+    $hora_min = $resultado->format('%H')*60;
+    $dia_min = $resultado->format('%d')*1440;
+    $min =  $resultado->format('%i');
+    $total_min = $hora_min + $dia_min + $min;
+    
+    $precio = calculo_total($tipo_catvehiculo,$tipo_servicio,$total_min);
+    echo $precio;
+    //echo $resultado->format('%a %d %y %H %i');
+    
   //echo date('y-m-d', strtotime($fecha_salida)- strtotime($fecha_llegada) );
   //echo date_diff(date_create($fechas),date_create($fechai));
   //echo $fechai-$fechas;
   //echo date('y-m-d',(strtotime($fecha_salida) - strtotime($fecha_llegada)) );
     
+}
+function calculo_total($tipo_catvehiculo,$tipo_servicio,$total_min){
+    $me= new cls_servicio();
+    $me->settipo_vechiculo($tipo_catvehiculo);
+    $me->msogetvalorservicioxvehiculo();
+    $valor =0;
+    if($tipo_servicio == 2){
+        $valor = $me->getprecio() ;
+        $valor = $valor * $total_min;
+    }else if($tipo_servicio == 3){
+        $valor = $me->getprecio_dia();
+    }else if($tipo_servicio == 4){
+        $valor = $me->getprecio_noche();
+    }else if($tipo_servicio == 5){
+        $valor = 0;
+    }
+   
+    
+    return $valor ;
 }
 
 function ingresoestac(){
@@ -68,6 +112,7 @@ function ingresoestac(){
   $me->setubic_tablero(0);//pendiente
   
   $me->insert();
+  echo $me->getid_dventa();
   
     
 }
