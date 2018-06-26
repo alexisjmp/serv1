@@ -76,11 +76,11 @@ $_SESSION["cod_tipo_especialista"] = $_SESSION["cod_tipo_especialista"];
                 {
                     msg = "Problemas encontrados: <br>";
                     bander = 0;
-                    inpObj = document.getElementById("txtPat");
+                    inpObj = document.getElementById("txtNom");
                     if (validar_solo_letras(inpObj))
                     {
                         bander = 1;
-                        msg += "Patente: datos faltantes <br>"
+                        msg += "Nombre: datos no validos <br>"
                     }
                     if (bander == 0) {
                         $('#alert').hide();
@@ -93,9 +93,10 @@ $_SESSION["cod_tipo_especialista"] = $_SESSION["cod_tipo_especialista"];
 
                 function limpiar()
                 {
-                    $('#txtPat').val('');
+                    $('#txtNom').val('');
                     $('#selEst').val('');
-                    $('#dateFecha').val('');
+                    $('#selCag').val('');
+                    $('#areaDesc').val('');
                 }
                 function showAlert(message) {
                     //alert(message);
@@ -128,14 +129,14 @@ $_SESSION["cod_tipo_especialista"] = $_SESSION["cod_tipo_especialista"];
         <div class="container">
             <div class="panel-group">
                 <div class="panel panel-info">
-                    <div class="panel-heading">Formulario Convenios</div>        
+                    <div class="panel-heading">Formulario Servicios</div>        
                     <div class="panel-body  ">
                         <!--                        <div class="row">-->
                         <div class=" form-group row">
                             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 ">
-                                <label class="col-lg-5 col-md-5 col-sm-3 col-xs-12 control-label" for="txtPat" >Patente:</label>
+                                <label class="col-lg-5 col-md-5 col-sm-3 col-xs-12 control-label" for="txtNom" >Nombre:</label>
                                 <div class="col-lg-6  col-md-7 col-sm-6 col-xs-12 ">
-                                    <input type="text" id="txtPat" class="form-control " pattern="[A-Za-z0-9]{5,6}"  required >
+                                    <input type="text" id="txtNom" class="form-control " pattern="[A-Za-z0-9]{1,25}"  required >
                                 </div>
 
                             </div>
@@ -143,9 +144,9 @@ $_SESSION["cod_tipo_especialista"] = $_SESSION["cod_tipo_especialista"];
                         </div>
                         <div class=" form-group row">
                             <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                                <label class=" col-lg-5 col-md-5 col-sm-3 col-xs-12 control-label" for="selEst">Estado Vehiculo:</label>
+                                <label class=" col-lg-5 col-md-5 col-sm-3 col-xs-12 control-label" for="selEst">Estado Servicio:</label>
                                 <div class="col-lg-6  col-md-7 col-sm-6 col-xs-12">
-                                    <select  class="form-control"id="selEst" name="slestado">
+                                    <select  class="form-control"id="selEst" >
                                         <option value=""></option>
                                         <option value="0">1 </option>
                                         <option value="1">2 </option>
@@ -154,16 +155,28 @@ $_SESSION["cod_tipo_especialista"] = $_SESSION["cod_tipo_especialista"];
                             </div>    
                         </div>
                         <div class=" form-group row">
-                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 ">
-                                <label class="col-lg-5 col-md-5 col-sm-3 col-xs-12 control-label" for="dateFecha" >Fecha:</label>
+                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                                <label class=" col-lg-5 col-md-5 col-sm-3 col-xs-12 control-label" for="selCag">Categoria:</label>
                                 <div class="col-lg-6  col-md-7 col-sm-6 col-xs-12">
-                                    <input type="text" id="dateFecha" class="form-control " >
+                                    <select  class="form-control"id="selCag" >
+                                        <option value=""></option>
+                                        <option value="0">1 </option>
+                                        <option value="1">2 </option>
+                                    </select>
+                                </div>
+                            </div>    
+                        </div>
+                        <div class=" form-group row">
+                            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 ">
+                                <label class="col-lg-3 col-md-3 col-sm-3 col-xs-12 control-label" for="areaDesc" >Descripcion:</label>
+                                <div class="col-lg-8  col-md-8 col-sm-6 col-xs-12">
+                                      <textarea style="resize:none" class="form-control" rows="5" id="areaDesc"></textarea>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-2 col-md-2 col-xs-6  col-sm-2 col-md-offset-3 col-xs-offset-7 col-lg-offset-3 col-sm-offset-7">
+                            <div class="col-lg-2 col-md-2 col-xs-6  col-sm-2 col-md-offset-6 col-xs-offset-7 col-lg-offset-6 col-sm-offset-7">
                                 <div class="form-group ">   
                                     <button type="button"  class="btn btn-success " id="btn_prestacion"  data-toggle="tooltip" data-placement="right" title="Aceptar" onclick="ingresar()"><span class="	glyphicon glyphicon-ok"></span></button>
                                     <button type="button"  class="btn btn-default" id="btn_prestacion"  data-toggle="tooltip" data-placement="right" title="Aceptar" onclick="limpiar()"><span class="glyphicon glyphicon-file"></span></button>
