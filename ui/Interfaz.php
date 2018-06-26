@@ -39,7 +39,7 @@ $fecha = date('d/m/Y');
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript" src="js/funcion_serv.js"></script> 
+       <!-- <script type="text/javascript" src="js/funcion_serv.js"></script> -->
         <script type="text/javascript" src="js/funcion_sistema.js"></script> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
         <script type="text/javascript">
@@ -83,6 +83,8 @@ $fecha = date('d/m/Y');
 //                $("#tipo").val("1");
                 $("#servicio").val("2");
                 $("#numero").val("");
+                $("#lblid_dventa").text("");
+                
             }
 
             function modificar(elemento)
@@ -98,19 +100,29 @@ $fecha = date('d/m/Y');
 
             function cargarModal(elemento)
             {
-                calculo_salida();
-                 alert("fdsaf");
+                
+               //  alert("fdsaf");
                 fila_id = elemento.parentNode.parentNode.parentNode.id;
-               debe = ($("#" + fila_id).children("td:nth-child(7)").text());
+               // alert(fila_id);
+              debe = ($("#" + fila_id).children("td:nth-child(7)").text());
                $("#debe").val(debe);
+               
+                 
+               
+              calculo_salida(fila_id);
               
             }
             
-            function calculo_salida(){
+            function calculo_salida(id){
+                id_dventa = id;
+                $("#ticket").text(id_dventa);
                 fecha = $("#fecha").text();
                 //hora = $("#hora").val();
                 var tiempo = new Date();
                 hora = tiempo.getHours()+':'+tiempo.getMinutes();
+                $("#" + fila_id).children("td:nth-child(6)").text(hora);
+                $("#btnd" + fila_id).attr('disabled', true);
+                $("#btnM" + fila_id).attr('disabled', true);
                 ////                rut = $("#rut").val();
 //                telefono = $("#telefono").val();
                patente = $("#patente").val();
@@ -120,38 +132,45 @@ $fecha = date('d/m/Y');
 //                servicio = $("#servicio :selected").text();
                 numero = $("#numero ").val();
                 
-                 data=  'funcion=salidaestac&fecha='+fecha+'&hora='+hora+'&patente='+patente+'&tipo='+tipo+'&numero='+numero+'&servicio='+servicio;
+                 data=  'funcion=salidaestac&fecha='+fecha+'&hora='+hora+'&patente='+patente+'&tipo='+tipo+
+                         '&numero='+numero+'&servicio='+servicio+'&id_dventa='+id_dventa;
 //                
                  marco = "aux";
                  ruta= "../negocio/logicaestac.php";
 //                alert(data);
-                sendajax(marco, ruta, data);
+                sendajax(marco, ruta, data,1);
             }
 
 
-
-            function guardar(elemento)
-            {
-                fila_id = elemento.parentNode.parentNode.parentNode.id;
+            function guardado(id){
+                fila_id = id;
                 $("#txtP" + fila_id).attr('disabled', true);
                 $("#selS" + fila_id).attr('disabled', true);
                 $("#selT" + fila_id).attr('disabled', true);
                 $("#btnM" + fila_id).show();
                 $("#btnG" + fila_id).hide();
+              //    alert(fila_id);
 
+            }
+            function guardar(elemento)
+            {
+                fila_id = elemento.parentNode.parentNode.parentNode.id;
+            
                 patente = $("#txtP" + fila_id).val();
                 servicio = $("#selS" + fila_id).val();
                 vehiculo = $("#selT" + fila_id).val();
 
-                alert(patente + vehiculo + servicio);
-                //sendAjax
-//                data = 'hora' + hora + '&patente=' + patente + '&tipo=' + tipo + '&servicio=' + servicio + '&numero =' + numero;
-//                
-//                marco = "";
-//                ruta = "";
+              
+              
+                
+                
+                  data=  'funcion=editaestac&id_dventa='+fila_id+'&patente='+patente+'&tipo='+vehiculo+'&servicio='+servicio ;
+
+                 marco = "";
+                 ruta= "../negocio/logicaestac.php";
 //                alert(data);
-//                sendAjax(marco, ruta, data);
-                //sendAjax
+                sendajax(marco, ruta, data,3);
+              
 
             }
 
@@ -164,7 +183,8 @@ $fecha = date('d/m/Y');
             }
 
             function ingresar()//ingresa registro de estacionamiento
-            {
+            {  
+     
                 fecha = $("#fecha").text();
                 hora = $("#hora").val();
 //                rut = $("#rut").val();
@@ -175,18 +195,21 @@ $fecha = date('d/m/Y');
 //                tipo = $("#tipo :selected").text();
 //                servicio = $("#servicio :selected").text();
                 numero = $("#numero ").val();
+                id_dventa = $("#lblid_dventa").text();
+                //alert(id_dventa);
 //                $("#btabla").append("<tr> <td>" + 1 + "</td> <td>" + patente + "</td> <td>"
 //                        + tipo + "</td> <td>" + servicio + "</td> <td>" + numero + "</td> <td>" + hora
 //                        + "</td> <td>" + 1 + "</td> <td>" + 1 + "</td> </tr>");
+                
                 switch (tipo) {
                     case "1":
-                        textTipo = "<div class=''><select id='selT" + fila + "' class=' form-control' disabled><option value='1' selected >Moto</option><option value='2'>Auto</option><option value='3'>Pesado</option></select></div>";
+                        textTipo = "<div class=''><select id='selT" + id_dventa + "' class=' form-control' disabled><option value='1' selected >Moto</option><option value='2'>Auto</option><option value='3'>Pesado</option></select></div>";
                         break;
                     case "2" :
-                        textTipo = "<div class=''><select id='selT" + fila + "' class=' form-control' disabled><option value='1' >Moto</option><option value='2' selected >Auto</option><option value='3'>Pesado</option></select></div>";
+                        textTipo = "<div class=''><select id='selT" + id_dventa + "' class=' form-control' disabled><option value='1' >Moto</option><option value='2' selected >Auto</option><option value='3'>Pesado</option></select></div>";
                         break;
                     case "3":
-                        textTipo = "<div class=''><select id='selT" + fila + "' class=' form-control' disabled><option value='1' >Moto</option><option value='2'>Auto</option><option value='3' selected >Pesado</option></select></div>";
+                        textTipo = "<div class=''><select id='selT" + id_dventa + "' class=' form-control' disabled><option value='1' >Moto</option><option value='2'>Auto</option><option value='3' selected >Pesado</option></select></div>";
                         break;
                     default:
                         textTipo = "hola";
@@ -194,53 +217,65 @@ $fecha = date('d/m/Y');
 
                 switch (servicio) {
                     case "2":
-                        textSer = "<div class=''><select id='selS" + fila + "' class=' form-control' disabled><option value='2' selected>Minuto</option><option value='3'>dia</option><option value='4'>Noche</option><option value='5'>Lavado</option></select></div>";
+                        textSer = "<div class=''><select id='selS" + id_dventa + "' class=' form-control' disabled><option value='2' selected>Minuto</option><option value='3'>dia</option><option value='4'>Noche</option><option value='5'>Lavado</option></select></div>";
                         break;
                     case "3":
-                        textSer = "<div class=''><select id='selS" + fila + "' class=' form-control' disabled><option value='2' >Minuto</option><option value='3'selected>dia</option><option value='4'>Noche</option><option value='5'>Lavado</option></select></div>";
+                        textSer = "<div class=''><select id='selS" + id_dventa + "' class=' form-control' disabled><option value='2' >Minuto</option><option value='3'selected>dia</option><option value='4'>Noche</option><option value='5'>Lavado</option></select></div>";
 
                         break;
                     case "4":
-                        textSer = "<div class=''><select id='selS" + fila + "' class=' form-control' disabled><option value='2' >Minuto</option><option value='3'>dia</option><option value='4'selected>Noche</option><option value='5'>Lavado</option></select></div>";
+                        textSer = "<div class=''><select id='selS" + id_dventa + "' class=' form-control' disabled><option value='2' >Minuto</option><option value='3'>dia</option><option value='4'selected>Noche</option><option value='5'>Lavado</option></select></div>";
 
                         break;
                     case "5":
-                        textSer = "<div class=''><select id='selS" + fila + "' class=' form-control' disabled><option value='2' >Minuto</option><option value='3'>dia</option><option value='4'>Noche</option><option value='5'selected>Lavado</option></select></div>";
+                        textSer = "<div class=''><select id='selS" + id_dventa + "' class=' form-control' disabled><option value='2' >Minuto</option><option value='3'>dia</option><option value='4'>Noche</option><option value='5'selected>Lavado</option></select></div>";
                         break;
                     default:
                         textSer = "hola";
                 }
 
-                $("#btabla").append("<tr id = '" + (fila) + "'> <td>" + (fila) + "</td> <td> <div> <input id='txtP" + (fila) + "' type='text' class=' form-control' value = '"
+                $("#btabla").append(" <tr id = '" + (id_dventa) + "'> <td>" + (id_dventa) + "</td> <td> <div> <input id='txtP" + (id_dventa) + "' type='text' class=' form-control' value = '"
                         + patente + "' pattern='[A-Za-z0-9]{5,6}' disabled></input> </div> </td> <td>"
-                        + textTipo + "</td> <td>" + textSer + "</td> <td>" + numero + "</td> <td>" + hora
-                        + "</td> <td>" + 100 + "</td> <td><div class= ''>" +
-                        "<button id='btnM" + fila + "' class='btn btn-warning btn-xs' onclick='modificar(this)'>" +
+                        + textTipo + "</td> <td>" + textSer + "</td>  <td>" + hora
+                        + "</td> <td id='"+"sal" + (id_dventa) + "'>" + '00:00' + "</td> <td><div class= ''>" +
+                        "<button id='btnM" + id_dventa + "' class='btn btn-warning btn-xs' onclick='modificar(this)'>" +
                         "<span class='	glyphicon glyphicon-pencil'></span>" +
                         "</button>" +
-                        "<button id='btnG" + (fila) + "' class='btn btn-success btn-xs' onclick='validacionSalida(this)' style='display: none;' >" +
+                        "<button id='btnG" + (id_dventa) + "' class='btn btn-success btn-xs' onclick='validacionSalida(this)' style='display: none;' >" +
                         "<span class='glyphicon glyphicon-floppy-saved'></span>" +
                         "</button>" +
-                        "<button class='btn btn-danger btn-xs' onclick='eliminar(this)'>" +
+                        "<button id='btnd" + id_dventa + "' class='btn btn-danger btn-xs' onclick='eliminar(this)'>" +
                         "<span class='glyphicon glyphicon-remove'></span>" +
                         "</button>" +
                         "<button id='btnP" + (fila++) + "' class='btn btn-primary btn-xs' onclick='cargarModal(this)'  >" +
                         "<span class='	glyphicon glyphicon-usd' data-toggle='modal' data-target='#modalPagar'></span>" +
                         "</button>" +
                         "</div></td> </tr>");
-
-           //     alert(fecha + hora + patente + tipo + numero + servicio);
-alert(hora);
-                //sendAjax
-                //data=       'funcion=actualizapaciente&id_paciente='+id_pacientepk+'&identificador=';
-//                data = 'hora' + hora + '&patente=' + patente + '&tipo=' + tipo + '&servicio=' + servicio + '&numero =' + numero;
+                        //alert("1");
+                limpiar();
+             
+            }
+            
+            
+            function guardarreg(){ //ingresa registro
+                fecha = $("#fecha").text();
+                hora = $("#hora").val();
+//                rut = $("#rut").val();
+//                telefono = $("#telefono").val();
+                patente = $("#patente").val();
+                tipo = $("#tipo").val();
+                servicio = $("#servicio").val();
+//                tipo = $("#tipo :selected").text();
+//                servicio = $("#servicio :selected").text();
+                numero = $("#numero ").val();
                  data=  'funcion=ingresoestac&fecha='+fecha+'&hora='+hora+'&patente='+patente+'&tipo='+tipo+'&numero='+numero+'&servicio='+servicio;
 //                
-                 marco = "";
+                 marco = "lblid_dventa";
                  ruta= "../negocio/logicaestac.php";
 //                alert(data);
-                sendajax(marco, ruta, data);
-                //sendAjax
+                sendajax(marco, ruta, data,2);
+  //ingresar();
+                
             }
 
             function validacionbolean(inpObj) {
@@ -268,10 +303,13 @@ alert(hora);
                     bander = 1;
                     msg += "Numero: No valido<br>";
                 }
+                
                 if (bander == 0)
                 {
                     $('#alert').hide();
-                   ingresar();
+                     guardarreg();
+                     //alert($("#lblid_dventa").text());
+                   //ingresar();
                 } else {
                     showAlert(msg);
                 }
@@ -406,7 +444,7 @@ alert(hora);
                                     <div class="col-md-8 col-lg-6 col-sm-3 col-xs-12">
                                         <select id ="tipo" class=" form-control" >
                                             <option value="1">Moto</option>
-                                            <option value="2">Auto</option>
+                                            <option value="2" selected>Auto</option>
                                             <option value="3">Pesado</option>
                                         </select>
                                     </div>
@@ -425,10 +463,11 @@ alert(hora);
 
                                     <div class="clearfix visible-lg visible-md "></div>
 
-                                    <label class="col-md-4 col-lg-3 col-sm-2 col-xs-12">Numero:</label>
+                                    <label class="col-md-4 col-lg-3 col-sm-2 col-xs-12" hidden>Numero:</label >
                                     <div class="col-md-8 col-lg-6 col-sm-3 col-xs-12">
-                                        <input type="number" id="numero" class=" form-control" required="" min="1" max="100"></input>
+                                        <input type="hidden" id="numero" value="1" class=" form-control" required="" min="1" max="100" ></input >
                                     </div>
+                                    <label id="lblid_dventa" ></label>  
 
                                 </div>
 
@@ -471,24 +510,29 @@ alert(hora);
                                     <div class="col-md-4 col-lg-3 col-sm-3 col-xs-12">
                                         <input type="text" id="patente" class=" form-control" ></input>
                                     </div>
-<label id="aux" ></label>  
+                                   
                                     <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
                                         <button class="btn btn-primary" onclick="">
                                             <span class="glyphicon glyphicon-search" data-toggle="modal" data-target="#myModal"></span>
                                         </button>
                                     </div>
+                                     <div class="col-md-4 col-lg-4 col-sm-4 col-xs-4">
+                                         <label id="" >ticket:</label><label id="ticket" >000</label>  
+                                          <label id="" >total:</label><label id="aux" ></label>  
+                                    </div>
                                 </div>
-                                <div class="row col-md-12 col-xs-12 col-sm-12 col-lg-12 form-group table-responsive" style="height: 500px; overflow-y: scroll;" >
+                               
+                                <div class="row col-md-12 col-xs-12 col-sm-12 col-lg-12 form-group table-responsive" style="height: 350px; overflow-y: scroll;" >
                                     <table class="table table-bordered table-condensed ">
                                         <thead id="htabla" class="">
                                             <tr>
                                                 <td>Id</td>
                                                 <td>Patente</td>
-                                                <td>Tipo de Vehiculo</td>
+                                                <td>Tipo</td>
                                                 <td>Servicio</td>
-                                                <td>Numero</td>
-                                                <td>Hora</td>
-                                                <td>Valor</td>
+                                              
+                                                <td>Inicio</td>
+                                                <td>Salida</td>
                                                 <td>Opciones</td>
                                             </tr>
                                         </thead>
