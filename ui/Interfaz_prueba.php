@@ -44,18 +44,18 @@ $fecha = date('d/m/Y');
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
         <script type="text/javascript">
 
-           
+
             function cargartablaArr()
             {
                 var xmlhttp = new XMLHttpRequest();
 
                 xmlhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
-                        myArr =  JSON.parse(this.responseText);
+                        myArr = JSON.parse(this.responseText);
                         console.log(myArr);
                         alert(myArr[1]);
 //                        fecha = $("#fecha").text();
-                     hora = myArr[5];
+                        hora = myArr[5];
                         patente = myArr[1];
                         tipo = myArr[2];
                         servicio = myArr[3];
@@ -111,7 +111,7 @@ $fecha = date('d/m/Y');
                                 "<span class='	glyphicon glyphicon-usd' data-toggle='modal' data-target='#modalPagar'></span>" +
                                 "</button>" +
                                 "</div></td> </tr>");
-           
+
                     }
                 };
                 xmlhttp.open("GET", "enviaDatosArray.php", true);
@@ -303,8 +303,8 @@ $fecha = date('d/m/Y');
                         "<button class='btn btn-danger btn-xs' onclick='eliminar(this)'>" +
                         "<span class='glyphicon glyphicon-remove'></span>" +
                         "</button>" +
-                        "<button id='btnP" + (fila++) + "' class='btn btn-primary btn-xs' onclick='cargarModal(this)'  >" +
-                        "<span class='	glyphicon glyphicon-usd' data-toggle='modal' data-target='#modalPagar'></span>" +
+                        "<button id='btnP" + (fila++) + "' class='btn btn-primary btn-xs' onclick='cargarModal(this)' data-toggle='modal' data-target='#modalPagar' >" +
+                        "<span class='	glyphicon glyphicon-usd' ></span>" +
                         "</button>" +
                         "</div></td> </tr>");
 
@@ -422,10 +422,29 @@ $fecha = date('d/m/Y');
                     $("#vuelto").val(calculo1);
                 }
             }
+            
+            function login()
+            {
+                marco = "marcoSesion";
+                ruta = "login.php";
+                data = "";
+                sendajax_modal(marco,ruta,data);
+            }
+            
         </script>
 
     </head>
     <body onload="cargartablaArr()">
+
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <ul class="nav nav-pills navbar-right ">
+                    <li><button class="btn btn-primary navbar-btn" data-toggle='modal' data-target='#modalSesion' onclick="login()">Iniciar Sesion</button></li>
+                </ul>
+            </div>
+        </nav>
+        
+        
         <div class="container">
 
             <!--inicio panel-->
@@ -548,7 +567,7 @@ $fecha = date('d/m/Y');
 
                                     <label class="col-md-2 col-lg-2 col-sm-2 col-xs-12">Patente:</label>
                                     <div class="col-md-4 col-lg-3 col-sm-3 col-xs-12">
-                                        <input type="text" id="patente" class=" form-control" ></input>
+                                        <input type="text" id="buscarPatente" class=" form-control" ></input>
                                     </div>
 
                                     <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
@@ -622,6 +641,27 @@ $fecha = date('d/m/Y');
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="finPago()">Pagado</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+             <!-- Modal -->
+            <div class="modal fade" id="modalSesion" role="dialog">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Sesion</h4>
+                        </div>
+                        <div id="marcoSesion" class="modal-body">
+
+                        </div>
+                        
+                        <div class="clearfix visible-lg visible-md visible-sm visible-xs"></div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
