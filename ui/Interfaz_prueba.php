@@ -7,6 +7,7 @@ $_SESSION["usuario"] = '';
 //
 date_default_timezone_set('America/Santiago');
 $fecha = date('d/m/Y');
+
 //if (!isset($_SESSION["usuario"])) {
 //    $_SESSION["usuario"] = $_GET['nombre'];
 //    $_SESSION["rut"] = $_GET['rut'];
@@ -19,7 +20,18 @@ $fecha = date('d/m/Y');
 //    $_SESSION["cod_tipo_especialista"] = $_SESSION["cod_tipo_especialista"];
 //}
 //seguridad();
+
+function getRealIP() {
+    if (!empty($_SERVER["HTTP_CLIENT_IP"]))
+        return $_SERVER["HTTP_CLIENT_IP"];
+
+    if (!empty($_SERVER["HTTP_X_FORWARDED_FOR"]))
+        return $_SERVER["HTTP_X_FORWARDED_FOR"];
+
+    return $_SERVER["REMOTE_ADDR"];
+}
 ?>
+
 <!DOCTYPE html>
 <html  xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
     <head>
@@ -42,6 +54,8 @@ $fecha = date('d/m/Y');
         <script type="text/javascript" src="js/funcion_serv.js"></script> 
         <script type="text/javascript" src="js/funcion_sistema.js"></script> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
         <script type="text/javascript">
 
 
@@ -53,7 +67,7 @@ $fecha = date('d/m/Y');
                     if (this.readyState == 4 && this.status == 200) {
                         myArr = JSON.parse(this.responseText);
                         console.log(myArr);
-                        alert(myArr[1]);
+//                        alert(myArr[1]);
 //                        fecha = $("#fecha").text();
                         hora = myArr[5];
                         patente = myArr[1];
@@ -107,8 +121,8 @@ $fecha = date('d/m/Y');
                                 "<button class='btn btn-danger btn-xs' onclick='eliminar(this)'>" +
                                 "<span class='glyphicon glyphicon-remove'></span>" +
                                 "</button>" +
-                                "<button id='btnP" + (myArr[0]) + "' class='btn btn-primary btn-xs' onclick='cargarModal(this)'  >" +
-                                "<span class='	glyphicon glyphicon-usd' data-toggle='modal' data-target='#modalPagar'></span>" +
+                                "<button id='btnP" + (myArr[0]) + "' class='btn btn-primary btn-xs' onclick='cargarModal(this)' data-toggle='modal' data-target='#modalPagar' >" +
+                                "<span class='	glyphicon glyphicon-usd' ></span>" +
                                 "</button>" +
                                 "</div></td> </tr>");
 
@@ -422,15 +436,41 @@ $fecha = date('d/m/Y');
                     $("#vuelto").val(calculo1);
                 }
             }
-            
+
             function login()
             {
                 marco = "marcoSesion";
                 ruta = "login.php";
                 data = "";
-                sendajax_modal(marco,ruta,data);
+                sendajax_modal(marco, ruta, data);
             }
-            
+
+            function abrirCaja()
+            {
+                fecha = "<?php echo $fecha ?>";
+                id_usuario = "";
+                ip_usuario = "<?php print getRealIP() ?>";
+                alert("fecha = " + fecha + "id usuario =" + id_usuario + "ip usuario = " + ip_usuario);
+                data = "id_usuario=" + id_usuario + "&ip_usuario=" + ip_usuario + "&fecha=" + fecha;
+//                marco="";
+//                ruta="";
+//                sendajax(marco, ruta, data);
+            }
+
+            function confirmar() {
+                var r = confirm("Esta Seguro/a");
+                if (r == true) {
+                    id_venta = "";
+                    data = "id_venta=" + id_venta;
+//                marco="";
+//                ruta
+//                
+//                sendajax(marco, ruta, data);
+                } else {
+                    alert("Caja No Cerrada");
+                }
+            }
+
         </script>
 
     </head>
@@ -439,12 +479,15 @@ $fecha = date('d/m/Y');
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <ul class="nav nav-pills navbar-right ">
+
+                    <li><button class="btn btn-warning navbar-btn" data-toggle='modal' data-target='#modalCaja' onclick="">Caja</button></li>
                     <li><button class="btn btn-primary navbar-btn" data-toggle='modal' data-target='#modalSesion' onclick="login()">Iniciar Sesion</button></li>
+
                 </ul>
             </div>
         </nav>
-        
-        
+
+
         <div class="container">
 
             <!--inicio panel-->
@@ -461,7 +504,7 @@ $fecha = date('d/m/Y');
                                 <div class=" form-group col-md-12 col-lg-12 col-sm-12 col-xs-12">
                                     <label class="col-lg-2 col-md-3 col-sm-2 col-xs-3">Fecha:</label>
                                     <div  class="col-lg-6 col-md-6 col-sm-3 col-xs-7">
-                                        <label id="fecha" class="col-lg-2 col-md-3 col-sm-2 col-xs-3"><? echo $fecha; ?></label>
+                                        <label id="fecha" class="col-lg-2 col-md-3 col-sm-2 col-xs-3"><?php echo $fecha; ?></label>
                                     </div>
 
                                 </div>
@@ -645,8 +688,8 @@ $fecha = date('d/m/Y');
                     </div>
                 </div>
             </div>
-            
-             <!-- Modal -->
+
+            <!-- Modal -->
             <div class="modal fade" id="modalSesion" role="dialog">
                 <div class="modal-dialog modal-md">
                     <div class="modal-content">
@@ -657,7 +700,7 @@ $fecha = date('d/m/Y');
                         <div id="marcoSesion" class="modal-body">
 
                         </div>
-                        
+
                         <div class="clearfix visible-lg visible-md visible-sm visible-xs"></div>
 
                         <div class="modal-footer">
@@ -667,6 +710,47 @@ $fecha = date('d/m/Y');
                 </div>
             </div>
 
+            <!-- Modal -->
+            <div class="modal fade" id="modalCaja" role="dialog">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Caja</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class=" form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div>
+                                    <button class="btn btn-success" onclick="abrirCaja()" >Abrir Caja</button>
+                                </div>                        
+                            </div>
+                            <div class="form-group col-lg-offset-3 col-md-offset-3 col-sm-offset-3 col-xs-offset-1 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">Total Venta:</label>
+                                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">0</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label class=" col-lg-3 col-md-3 col-sm-3 col-xs-6">Pagado:</label>
+                                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">0</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <label class=" col-lg-3 col-md-3 col-sm-3 col-xs-6">Debe:</label>
+                                    <label class="col-lg-3 col-md-3 col-sm-3 col-xs-6">0</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <button class="btn btn-danger " onclick="confirmar()">Cerrar Caja</button>                  
+                            </div>
+                        </div>
+
+                        <div class="clearfix visible-lg visible-md visible-sm visible-xs" data-toggle='modal' data-target='#modalConfirm'></div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
         </div>
