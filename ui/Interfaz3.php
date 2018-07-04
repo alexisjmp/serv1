@@ -1,12 +1,9 @@
 <?php
-
 session_start();
 $_SESSION["usuario"] = '';
 
 date_default_timezone_set('America/Santiago');
 $fecha = date('d/m/Y');
-
-
 
 function getRealIP() {
     if (!empty($_SERVER["HTTP_CLIENT_IP"]))
@@ -420,6 +417,48 @@ function getRealIP() {
                 }
             }
 
+            function doSearch()
+            {
+                busqueda = $("#buscarPatente").val();
+                $("#btabla tr").each(function () {
+                    compara = $(this).children("td:nth-child(2)").children().children("input:text").val();
+
+                    if (busqueda.length == 0 || busqueda.toLowerCase() == compara.toLowerCase())
+                    {
+                        $(this).show();
+                    } else
+                    {
+                        $(this).hide();
+                    }
+
+                });
+
+
+                // Recorremos todas las filas con contenido de la tabla
+//                for (var i = 1; i < tableReg.rows.length; i++)
+//                {
+//                    cellsOfRow = tableReg.rows[i].getElementsByid('td').;
+//                    found = false;
+//                    // Recorremos todas las celdas
+//
+//                    compareWith = cellsOfRow[1].;
+//                    // Buscamos el texto en el contenido de la celda
+//                    if (searchText.length == 0 || compareWith == searchText)
+//                    {
+//                        found = true;
+//                    }
+//                    if (found)
+//                    {
+//                        tableReg.rows[i].style.display = '';
+//                    } else {
+//                        // si no ha encontrado ninguna coincidencia, esconde la
+//                        // fila de la tabla
+//                        tableReg.rows[i].style.display = 'none';
+//                    }
+//                }
+            }
+
+
         </script>
 
     </head>
@@ -550,13 +589,13 @@ function getRealIP() {
                                     </div>
 
                                     <div class="col-md-1 col-lg-1 col-sm-1 col-xs-1">
-                                        <button class="btn btn-primary" onclick="">
-                                            <span class="glyphicon glyphicon-search" data-toggle="modal" data-target="#myModal"></span>
+                                        <button class="btn btn-primary" onclick="doSearch()">
+                                            <span class="glyphicon glyphicon-search" ></span>
                                         </button>
                                     </div>
                                 </div>
                                 <div class="row col-md-12 col-xs-12 col-sm-12 col-lg-12 form-group table-responsive" style="height: 500px; overflow-y: scroll;" >
-                                    <table class="table table-bordered table-condensed ">
+                                    <table class="table table-bordered table-condensed " id="ingresos">
                                         <thead id="htabla" class="">
                                             <tr>
                                                 <td>Id</td>
