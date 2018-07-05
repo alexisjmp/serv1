@@ -32,7 +32,7 @@ class cls_detalle_venta
 var $id_dventa;   // KEY ATTR. WITH AUTOINCREMENT
 
 var $patente;   // (normal Attribute)
-var $id_venta;   // (normal Attribute)
+var $id_arqueo;   // (normal Attribute)
 var $correlativo_venta;   // (normal Attribute)
 var $tipo_servicio;   // (normal Attribute)
 var $tipo_catvehiculo;   // (normal Attribute)
@@ -45,7 +45,11 @@ var $estado_detalle;   // (normal Attribute)
 var $estado_pagado;   // (normal Attribute)
 var $observacion_detalle;   // (normal Attribute)
 var $ubic_tablero;   // (normal Attribute)
+var $saldo_venta;
+var $turno_venta;
+var $desc_venta;
 var $arrdventa;
+var $total_venta;
 
 var $database; // Instance of class database
 
@@ -77,9 +81,9 @@ function getpatente()
 return $this->patente;
 }
 
-function getid_venta()
+function getid_arqueo()
 {
-return $this->id_venta;
+return $this->id_arqueo;
 }
 
 function getcorrelativo_venta()
@@ -100,6 +104,10 @@ return $this->tipo_catvehiculo;
 function getventa()
 {
 return $this->venta;
+}
+function gettotal_venta()
+{
+return $this->total_venta;
 }
 
 function gettime_llegada()
@@ -142,6 +150,18 @@ function getubic_tablero()
 return $this->ubic_tablero;
 }
 
+function getsaldo_venta()
+{
+return $this->saldo_venta;
+}
+function getturno_venta()
+{
+return $this->turno_venta;
+}
+function getdesc_venta()
+{
+return $this->desc_venta;
+}
 // **********************
 // SETTER METHODS
 // **********************
@@ -157,10 +177,11 @@ function setpatente($val)
 $this->patente =  $val;
 }
 
-function setid_venta($val)
+function setid_arqueo($val)
 {
-$this->id_venta =  $val;
+$this->id_arqueo =  $val;
 }
+
 
 function setcorrelativo_venta($val)
 {
@@ -180,6 +201,10 @@ $this->tipo_catvehiculo =  $val;
 function setventa($val)
 {
 $this->venta =  $val;
+}
+function settotal_venta($val)
+{
+$this->total_venta =  $val;
 }
 
 function settime_llegada($val)
@@ -221,10 +246,38 @@ function setubic_tablero($val)
 {
 $this->ubic_tablero =  $val;
 }
+function setsaldo_venta($val)
+{
+$this->saldo_venta =  $val;
+}
+function setturno_venta($val)
+{
+$this->turno_venta =  $val;
+}
+function setdesc_venta($val)
+{
+$this->desc_venta =  $val;
+}
 
 // **********************
 // SELECT METHOD / LOAD
 // **********************
+
+function msoobtsumaventaxid(){
+$id_arqueo = $this->getid_arqueo();    
+if($id_arqueo != ""){
+$sql =  "SELECT SUM(venta) as total_venta FROM detalle_venta WHERE turno_venta = '$id_arqueo'";
+$result =  $this->database->consulta($sql);
+//$row = mysql_fetch_object($result);
+$row = $this->database->fetch_array($result);
+if($row['total_venta'] != "")
+    $this->settotal_venta($row['total_venta']);
+else 
+    $this->settotal_venta("0");
+}else
+    $this->settotal_venta("0");
+    
+}
 
 function msoobtenerregistroxid(){
 $id_dventa = $this->getid_dventa();    
@@ -241,25 +294,42 @@ $this->settipo_catvehiculo($row['tipo_catvehiculo']);
     
 }
 function msolistdetventa(){
-$id_dventa = $this->getid_dventa();    
+//$id_dventa = $this->getid_dventa();    
 $sql =  "SELECT * FROM detalle_venta ";
 $result =  $this->database->consulta($sql);
-//$row = mysql_fetch_object($result);
+
 $row = $this->database->fetch_array($result);
 
 
 $i=0;
     while($row = $this->database->fetch_array($result)){
-
-
+/*
+$this->arrdventa[$i] = array('id_dventa' => $row['id_dventa'],'patente' => $row['patente'],
+    'correlativo_venta' => $row['correlativo_venta'],'tipo_servicio' => $row['tipo_servicio'],
+    'tipo_catvehiculo' => $row['tipo_catvehiculo'],'venta' =>$row['venta'] ,'time_llegada' =>$row['time_llegada'] ,
+    'time_salida' => $row['time_salida'],'time_cantidad' => $row['time_cantidad'],
+    'estado_detalle' => $row['estado_pago'],'observacion_detalle' => $row['observacion_detalle'],
+    'ubic_tablero' => $row['ubic_tablero'],'saldo_venta' => $row['saldo_venta'],'turno_venta' =>  $row['turno_venta'],
+    'desc_venta' => $row['desc_venta']);        
+ */
    $this->arrdventa[$i]['id_dventa'] = $row['id_dventa'];
    $this->arrdventa[$i]['patente'] = $row['patente'];
+   $this->arrdventa[$i]['correlativo_venta'] = $row['correlativo_venta'];
    $this->arrdventa[$i]['tipo_servicio'] = $row['tipo_servicio'];
    $this->arrdventa[$i]['tipo_catvehiculo'] = $row['tipo_catvehiculo'];
+   $this->arrdventa[$i]['venta'] = $row['venta'];
    $this->arrdventa[$i]['time_llegada'] = $row['time_llegada'];
+   $this->arrdventa[$i]['time_salida'] = $row['time_salida'];
+   $this->arrdventa[$i]['time_cantidad'] = $row['time_cantidad'];
+   $this->arrdventa[$i]['estado_detalle'] = $row['estado_detalle'];
    $this->arrdventa[$i]['estado_pagado'] = $row['estado_pagado'];
+   $this->arrdventa[$i]['observacion_detalle'] = $row['observacion_detalle'];
    $this->arrdventa[$i]['ubic_tablero'] = $row['ubic_tablero'];
-  
+   $this->arrdventa[$i]['saldo_venta'] = $row['saldo_venta'];
+   $this->arrdventa[$i]['turno_venta'] = $row['turno_venta'];
+   $this->arrdventa[$i]['desc_venta'] = $row['desc_venta'];
+ 
+
   // $this->arrdventa[$i][''] = $row[''];
    
    $i++;
@@ -280,7 +350,7 @@ $this->id_dventa = $row->id_dventa;
 
 $this->patente = $row->patente;
 
-//$this->id_venta = $row->id_venta;
+//$this->id_arqueo = $row->id_arqueo;
 
 //$this->correlativo_venta = $row->correlativo_venta;
 
@@ -327,7 +397,7 @@ function insert()
 {
 $this->id_dventa = ""; // clear key for autoincrement
 
-$sql = "INSERT INTO detalle_venta ( patente,id_venta,correlativo_venta,tipo_servicio,tipo_catvehiculo,venta,time_llegada,time_salida,time_registro,time_cantidad,estado_detalle,estado_pagado,observacion_detalle,ubic_tablero ) VALUES ( '$this->patente','$this->id_venta','$this->correlativo_venta','$this->tipo_servicio','$this->tipo_catvehiculo','$this->venta','$this->time_llegada','$this->time_salida','$this->time_registro','$this->time_cantidad','$this->estado_detalle','$this->estado_pagado','$this->observacion_detalle','$this->ubic_tablero' )";
+$sql = "INSERT INTO detalle_venta ( patente,id_arqueo,correlativo_venta,tipo_servicio,tipo_catvehiculo,venta,time_llegada,time_salida,time_cantidad,estado_detalle,estado_pagado,observacion_detalle,ubic_tablero ) VALUES ( '$this->patente','$this->id_arqueo','$this->correlativo_venta','$this->tipo_servicio','$this->tipo_catvehiculo','$this->venta','$this->time_llegada','$this->time_salida','$this->time_cantidad','$this->estado_detalle','$this->estado_pagado','$this->observacion_detalle','$this->ubic_tablero' )";
 $result = $this->database->consulta($sql);
 $this->id_dventa = mysql_insert_id();
 
@@ -345,12 +415,31 @@ $sql = " UPDATE detalle_venta SET  patente = '$this->patente',tipo_servicio = '$
 $result = $this->database->consulta($sql);
 
 }
+function updatepago()
+{
+$id_dventa = $this->getid_dventa();
+$sql = " UPDATE detalle_venta SET venta = '$this->venta',time_salida = '$this->time_salida',"
+        . "time_cantidad = '$this->time_cantidad',estado_detalle = '$this->estado_detalle',estado_pagado = '$this->estado_pagado',"
+        . "turno_venta = '$this->turno_venta' WHERE id_dventa = $id_dventa ";
 
+$result = $this->database->consulta($sql);
+
+}
+
+function updateestado()
+{
+$id_dventa = $this->getid_dventa();
+$sql = " UPDATE detalle_venta SET estado_detalle = '$this->estado_detalle',"
+        . "turno_venta = '$this->turno_venta' WHERE id_dventa = $id_dventa ";
+
+$result = $this->database->consulta($sql);
+
+}
 
 function update($id)
 {
 
-$sql = " UPDATE detalle_venta SET  patente = '$this->patente',id_venta = '$this->id_venta',correlativo_venta = '$this->correlativo_venta',tipo_servicio = '$this->tipo_servicio',tipo_catvehiculo = '$this->tipo_catvehiculo',venta = '$this->venta',time_llegada = '$this->time_llegada',time_salida = '$this->time_salida',time_registro = '$this->time_registro',time_cantidad = '$this->time_cantidad',estado_detalle = '$this->estado_detalle',estado_pagado = '$this->estado_pagado',observacion_detalle = '$this->observacion_detalle',ubic_tablero = '$this->ubic_tablero' WHERE id_dventa = $id ";
+$sql = " UPDATE detalle_venta SET  patente = '$this->patente',id_arqueo = '$this->id_arqueo',correlativo_venta = '$this->correlativo_venta',tipo_servicio = '$this->tipo_servicio',tipo_catvehiculo = '$this->tipo_catvehiculo',venta = '$this->venta',time_llegada = '$this->time_llegada',time_salida = '$this->time_salida',time_registro = '$this->time_registro',time_cantidad = '$this->time_cantidad',estado_detalle = '$this->estado_detalle',estado_pagado = '$this->estado_pagado',observacion_detalle = '$this->observacion_detalle',ubic_tablero = '$this->ubic_tablero' WHERE id_dventa = $id ";
 
 $result = $this->database->consulta($sql);
 
