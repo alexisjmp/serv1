@@ -1,94 +1,4 @@
-//function guardarcompra() {
-//    //txtexamen1 -11
-//    exam = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-//    txtexam = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-//    var servicios = new Array();
-//    i = 0;
-//    id_evaluacion = $("#lblid_evaluacion").text();
-//    rut_especialista = $("#rut_usuario").val();
-//    if ($('#btabla').children().length != 0) {
-//
-//        $("#btabla tr").each(function () {
-//
-//            id_servicio = $(this).children("td:nth-child(5)").text();
-//            nombre = $(this).children("td:nth-child(6)").text();
-//            categoria = $(this).children("td:nth-child(7)").text();
-//            cantidad = $(this).children("td:nth-child(4)").children("input:text").val();
-//            valor = $(this).children("td:nth-child(8)").children("input:text").val();
-//            servicios[i] = new Array(id_servicio, nombre, categoria, cantidad, valor);
-//            i++;
-//        });
-////     	if($("#txtexamen1").val().length > 0 ){
-////     	exam[0]= 1;  txtexam[0]= $("#txtexamen1").val();
-////     	}
-////     	if($("#txtexamen2").val().length > 0 ){   
-////     	exam[1]= 1;   txtexam[1]= $("#txtexamen2").val();
-////     	}
-////     	if($("#txtexamen3").val().length > 0 ){   
-////     	exam[2]= 1;txtexam[2]= $("#txtexamen3").val();
-////     	}
-////     	if($("#txtexamen4").val().length > 0 ){   
-////     	exam[3]= 1;txtexam[3]= $("#txtexamen4").val();
-////     	}
-////     	if($("#txtexamen5").val().length > 0 ){   
-////     	exam[4]= 1;txtexam[4]= $("#txtexamen5").val();
-////     	}
-////     	if($("#txtexamen6").val().length > 0 ){   
-////     	exam[5]= 1;txtexam[5]= $("#txtexamen6").val();
-////     	}
-////     	if($("#txtexamen7").val().length > 0 ){   
-////     	exam[6]= 1;txtexam[6]= $("#txtexamen7").val();
-////     	}
-////     	if($("#txtexamen8").val().length > 0 ){   
-////     	exam[7]= 1;txtexam[7]= $("#txtexamen8").val();
-////     	}
-////     	if($("#txtexamen9").val().length > 0 ){   
-////     	exam[8]= 1;txtexam[8]= $("#txtexamen9").val();
-////     	}
-////     	if($("#txtexamen10").val().length > 0 ){   
-////     	exam[9]= 1;txtexam[9]= $("#txtexamen10").val();
-////     	}
-////     	if($("#txtexamen11").val().length > 0 ){   
-////     	exam[10]= 1;txtexam[10]= $("#txtexamen11").val();
-////     	}
-//// 	 
-//        var myJSON1 = JSON.stringify(servicios);
-//        console.log(myJSON1);
-////    	var  myJSON2 = JSON.stringify(txtexam);
-//        ruta = "../negocio/reglasdatos.php";
-//        marco = "";
-//        data = 'funcion=miipedido&myJSON1=' + myJSON1;
-//        sendajax(marco, ruta, data);
-//        //alert("hola");
-//    } else
-//        alert("Seleccionar una servicio");
-//
-//    // else
-//    //  alert("Seleccionar un atencion");
-//}
-////
-////function buscar(op)
-////{
-////    opc = op;
-////    nombre = '';
-////    categoria = '';
-////    codigo = '';
-////    if (opc == 1)
-////    {
-////        nombre = $('#nombre_service').val();
-////    } else if (opc == 2)
-////    {
-////        categoria = $('#sel_service').val();
-////    } else
-////    {
-////        codigo = $('#cod_service').val();
-////    }
-////
-////    ruta = "../negocio/reglasdatos.php";
-////    marco = "";
-////    data = 'funcion=buscaservicios&nombre_servicio=' + nombre+'&categoria_servicio='+categoria+'&codigo_servicio='+codigo;
-////    sendajax(marco, ruta, data);
-////}
+
 
 function showResult(str, op, cat, cod) {
 
@@ -174,28 +84,107 @@ function loadDoc(ruta2, data) {
     xhttp.open("GET", ruta2 + data, true);
     xhttp.send();
 }
-
-function sendajax(marco, ruta, data, opcion) {
-    opc = opcion;
+function cargartablaArr() {
+  data=  "funcion=cargagrilla&id_usuario=1";
+                
+     marco = "";
+     ruta= "../negocio/logicaestac.php";
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-       id = this.responseText;
-          //alert(opc);
-           if(opc == 1){
-                document.getElementById(marco).innerHTML = "";
-            document.getElementById(marco).innerHTML = this.responseText;
-           }else if(opc == 2){
-               document.getElementById(marco).innerHTML = "";
-            document.getElementById(marco).innerHTML = this.responseText;
-                ingresar();
-           }else  if(opc == 3){
-                //alert(id);
-                guardado(id);
-           }
+              myArr = jQuery.parseJSON(this.responseText);
+                console.log(myArr);
+             i=0;   
+             while(i < myArr.length){
+                id_dventa = myArr[i]['id_dventa'];
+                patente = myArr[i]['patente'];
+                correlativo_venta = myArr[i]['correlativo_venta'];
+                tipo_servicio = myArr[i]['tipo_servicio'];
+                tipo_catvehiculo = myArr[i]['tipo_catvehiculo'];
+                venta = myArr[i]['venta'];
+                time_llegada = myArr[i]['time_llegada'];
+                time_salida = myArr[i]['time_salida'];
+                time_cantidad = myArr[i]['time_cantidad'];
+                estado_detalle = myArr[i]['estado_detalle'];
+                estado_pagado = myArr[i]['estado_pagado'];
+                observacion_detalle = myArr[i]['observacion_detalle'];
+                ubic_tablero = myArr[i]['ubic_tablero'];
+                saldo_venta = myArr[i]['saldo_venta'];
+                turno_venta = myArr[i]['turno_venta'];
+                desc_venta = myArr[i]['desc_venta'];
+          
+                     
+                if(estado_detalle == 0) // 
+                    ecolor = "danger";
+                else 
+                    ecolor = "";
+                i++;
+                //$("#"+id_dventa).children("td:nth-child(8)").addClass("info");
+                switch (tipo_catvehiculo) {
+                    case "1":
+                        textTipo = "<div class=''><select id='selT" + id_dventa + "' class=' form-control' disabled><option value='1' selected >Moto</option><option value='2'>Auto</option><option value='3'>Pesado</option></select></div>";
+                        break;
+                    case "2" :
+                        textTipo = "<div class=''><select id='selT" + id_dventa + "' class=' form-control' disabled><option value='1' >Moto</option><option value='2' selected >Auto</option><option value='3'>Pesado</option></select></div>";
+                        break;
+                    case "3":
+                        textTipo = "<div class=''><select id='selT" + id_dventa + "' class=' form-control' disabled><option value='1' >Moto</option><option value='2'>Auto</option><option value='3' selected >Pesado</option></select></div>";
+                        break;
+                    default:
+                        textTipo = "hola";
+                }
+
+                switch (tipo_servicio) {
+                    case "2":
+                        textSer = "<div class=''><select id='selS" + id_dventa + "' class=' form-control' disabled><option value='2' selected>Minuto</option><option value='3'>dia</option><option value='4'>Noche</option><option value='5'>Lavado</option></select></div>";
+                        break;
+                    case "3":
+                        textSer = "<div class=''><select id='selS" + id_dventa + "' class=' form-control' disabled><option value='2' >Minuto</option><option value='3'selected>dia</option><option value='4'>Noche</option><option value='5'>Lavado</option></select></div>";
+
+                        break;
+                    case "4":
+                        textSer = "<div class=''><select id='selS" + id_dventa + "' class=' form-control' disabled><option value='2' >Minuto</option><option value='3'>dia</option><option value='4'selected>Noche</option><option value='5'>Lavado</option></select></div>";
+
+                        break;
+                    case "5":
+                        textSer = "<div class=''><select id='selS" + id_dventa + "' class=' form-control' disabled><option value='2' >Minuto</option><option value='3'>dia</option><option value='4'>Noche</option><option value='5'selected>Lavado</option></select></div>";
+                        break;
+                    default:
+                        textSer = "hola";
+                }
+                 $("#btabla").append(" <tr id = '" + (id_dventa) + "'> <td>" + (id_dventa) + "</td> <td> <div> <input id='txtP" + (id_dventa) + "' type='text' size='4' class=' form-control' value = '"
+                        + patente + "' pattern='[A-Za-z0-9]{5,6}' disabled></input> </div> </td> <td>"
+                        + textTipo + "</td> <td>" + textSer + "</td>  <td>" + time_llegada
+                        + "</td> <td id='"+"sal" + (id_dventa) + "' >" + time_salida + "</td><td id='"+"min" + (id_dventa) + "'>"+ time_cantidad + "</td><td  id='"+"pag" + (id_dventa) + "'>" + venta + "</td> <td><div class= ''>" +
+                        "<button id='btnM" + id_dventa + "' class='btn btn-warning btn-xs' onclick='modificar(this)'>" +
+                        "<span class='	glyphicon glyphicon-pencil'></span>" +
+                        "</button>" +
+                        "<button id='btnG" + (id_dventa) + "' class='btn btn-success btn-xs' onclick='validacionSalida(this)' style='display: none;' >" +
+                        "<span class='glyphicon glyphicon-floppy-saved'></span>" +
+                        "</button>" +
+                        "<button id='btnd" + id_dventa + "' class='btn btn-danger btn-xs' onclick='eliminar(this)'>" +
+                        "<span class='glyphicon glyphicon-remove'></span>" +
+                        "</button>" +
+                        "<button id='btnP" + (id_dventa) + "' class='btn btn-success btn-xs' onclick='cargarModal(this)'  >" +
+                        "<span class='	glyphicon glyphicon-usd' data-toggle='modal' data-target='#modalPagar'></span>" +
+                        "</button>" +
+                        "</div></td> </tr>");
+                if(estado_pagado == 2){ // pagado
+                    color = "info";
+                    $("#btnd" + id_dventa).attr('disabled', true);
+                    $("#btnM" + id_dventa).attr('disabled', true);
+                    $("#btnP" + id_dventa).attr('disabled', true);
+                }else if(estado_pagado == 3) // en deuda
+                    color = "danger";
+                else 
+                    color = "";
+             $("#"+id_dventa).children("td:nth-child(1)").addClass(ecolor);      
+             $("#"+id_dventa).children("td:nth-child(8)").addClass(color);   
+             }   
+             
            
-  
         }
+        
       
     }; 
     xhttp.open("POST", ruta, true);
@@ -203,8 +192,128 @@ function sendajax(marco, ruta, data, opcion) {
     xhttp.send(data);
   
 } 
+function sendajax(marco, ruta, data, opcion) {
+    opc = opcion;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+       id = this.responseText;
+          //alert(opc);
+           if(opc == 1){  //calcula pago
+            valor = this.responseText;   
+            document.getElementById(marco).innerHTML = "";
+            document.getElementById(marco).innerHTML = valor;
+            document.getElementById("debe").innerHTML = valor;
+            //$("#debe").val(valor);
+            
+            
+           }else if(opc == 2){ //ingresar registro
+            document.getElementById(marco).innerHTML = "";
+            document.getElementById(marco).innerHTML = this.responseText;
+                ingresar();
+           }else  if(opc == 3){ //editar registro
+                //alert(id);
+                guardado(id);
+           }else  if(opc == 4){ //genera el pago
+                 document.getElementById(marco).innerHTML = "";
+            document.getElementById(marco).innerHTML = this.responseText;
+            
+           }else  if(opc == 5){ //actualiza estado
+            //  document.getElementById(marco).innerHTML = "";
+          //  document.getElementById(marco).innerHTML = this.responseText;
+             myArr = jQuery.parseJSON(this.responseText);
+                        console.log(myArr);
+            rut_usuario=  myArr[0]['rut'];
+            nombre_usuario =myArr[0]['nombre'];
+            id_arqueo =myArr[0]['id_arqueo'];
+           // tipo_turno = myArr[0]['turno'];         
+            //alert(nombre_usuario);
+            $("#lblusuario").text(nombre_usuario);
+            $("#lblrut_usuario").text(rut_usuario);
+            $("#lblid_arqueo").text(id_arqueo);
+           }else  if(opc == 6){ //actualiza estado
+            
+            myArr = jQuery.parseJSON(this.responseText);
+                    console.log(myArr);
+           estado_arqueo=  myArr[0]['estado'];
+           turno_arqueo=  myArr[0]['turno'];
+           usuario_arqueo=  myArr[0]['usuario'];
+              id_arqueo =myArr[0]['id_arqueo'];
+             estado_venta =myArr[0]['estado_venta'];
+          //alert(estado_venta);
+         //   alert(usuario_arqueo);
+          
+           $("#lblid_arqueo").text(id_arqueo);
+           $("#estado_arqueo").text(estado_arqueo);
+          $("#turno_arqueo").text(turno_arqueo);
+           $("#usuario_arqueo").text(usuario_arqueo);
+           //alert(estado_venta);
+           if(estado_venta == 2){
+             msg = "Cierre de actividades";
+             showAlert(msg);
+             $("#ultimo").attr('checked',true);
+             
+           }else if(estado_venta == 1)
+               $("#ultimo").attr('checked',false);
+           
+           }else  if(opc == 7){ 
+                myArr = jQuery.parseJSON(this.responseText);
+                console.log(myArr);
+                precio=  myArr[0]['precio'];
+                tiempo =myArr[0]['tiempo'];
+                dias =myArr[0]['dias'];
+                descuento =myArr[0]['descuento'];
+                id_dventa =myArr[0]['id_dventa'];
+                $("#aux").text(precio);
+                $("#" + id_dventa).children("td:nth-child(7)").text(tiempo);
+                $("#" + id_dventa).children("td:nth-child(8)").text(precio);
+           }else  if(opc == 8){ 
+                // alert("dsaf");
+                myArr = jQuery.parseJSON(this.responseText);
+                console.log(myArr);
+               
+           }
+            
+           
+        }
+        
+      
+    }; 
+    xhttp.open("POST", ruta, true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(data);
+  
+} 
+///////////////////////////----------------op caja
+  function confirmar() {
+                var r = confirm("Esta Seguro/a");
+                if (r == true) {
+                    id_venta = "";
+                    data = "id_venta=" + id_venta;
+//                marco="";
+//                ruta
+//                
+//                sendajax(marco, ruta, data);
+                } else {
+                    alert("Caja No Cerrada");
+                }
+}
+function acceso(user, pwd){
+    usuario = user;
+    pass = pwd;
+    bandera = false;
+    if(usuario == 1 && $.md5(pass) == '2b2e7e3883424a8ba08a3794ebaaf43e')
+      bandera = true;
+  
+    
+      if(usuario == 2 && $.md5(pass) == '1d4d7f00014b8fc58782bbf39461cebb')
+      bandera = true;
+   
+  return bandera;
+      
+}
 
-function cotizar() {
+function leertablaui() {
     usuario = $('#lblusuario').text();
     if (usuario != '') {
         alert("guardado para el usuario= " + usuario);
@@ -334,36 +443,6 @@ function validacion() {
 
 }
 
-function limpiar() {
-    $("#txt_rut").val('');
-    $("#txt_verificador").val('');
-    $("#txt_razon_social").val('');
-    $("#txt_giro").val('');
-
-    $("#txt_fono").val('');
-    $("#txt_email").val('');
-
-    $("#txt_nombref").val('');
-
-
-
-}
-
-function limpiar_2() {
-    $("#txt_rut_2").val('');
-    $("#txt_verificador_2").val('');
-    $("#txt_razon_social_2").val('');
-    $("#txt_giro_2").val('');
-
-    $("#txt_fono_2").val('');
-    $("#txt_email_2").val('');
-
-    $("#txt_nombref_2").val('');
-
-
-
-}
-
 
 
 function numeros(e) {
@@ -459,13 +538,7 @@ function registrar_cliente() {
 
 }
 
-function registro_menu() {
 
-    ruta = "clientes_2.php";
-    marco = "marco_registro_menu";
-    parametros = "";
-    sendajax_modal(marco, ruta, data);
-}
 
 function login_menu() {
 
