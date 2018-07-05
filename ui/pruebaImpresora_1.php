@@ -1,6 +1,7 @@
 <HTML>
 <HEAD>
     <link rel="stylesheet" href="pruebaTamanoHoja.css"></link>
+    <style>.lower-alpha:nth-of-type() { page-break-inside: avoid; }</style>
 <SCRIPT language="javascript">
 function imprimir()
 { if ((navigator.appName == "Netscape")) { window.print() ;

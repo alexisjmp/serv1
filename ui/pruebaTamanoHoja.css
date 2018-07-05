@@ -8,8 +8,17 @@ and open the template in the editor.
     Author     : Diego
 */
 
-@media print and (width: 5.2cm) and (height: 7.4cm) {
+@media print and (width: 2.2cm) and (height: 1.4cm) {
+    .orphans {
+        orphans:1;
+    }
      @page {
-        margin: 1cm;
+        margin: 5cm;
      }
+     
+        
+     @page :left { margin-left: 3cm; margin-right: 4cm; } 
+     @page :right { margin-left: 4cm; margin-right: 3cm; } 
+     @page :first { margin-top: 5cm; }
+     
 }
