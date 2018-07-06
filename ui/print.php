@@ -16,7 +16,7 @@ document.body.insertAdjacentHTML('beforeEnd', WebBrowser); WebBrowser1.ExecWB(6,
  
   {
   
-  ////////
+  ////////fdsafdsa
   var ficha = document.getElementById(nombre);
  
   var ventimp = window.open(' ', 'popimpr');
