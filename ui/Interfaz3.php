@@ -618,10 +618,56 @@ function getRealIP() {
                             </div>
                         </div>
                     </div>
-                    <!--fin panel de salida-->
+                </div>
+                <!--fin panel de salida-->
+                <div class="clearfix visible-lg visible-md visible-sm visible-xs"></div>
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                    <div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#collapse13">Informe Turno Actual</a>
+                                </h4>
+                            </div>
+                            <div id="collapse13" class="panel-collapse collapse ">
+                                <div class="panel-body embed-responsive embed-responsive-16by9 " style="height: 300px; ">
+                                    <!--                                        <embed class="embed-responsive-item" name="plugin" id="plugin" src="http://localhost/serv1/ui/reporteTurno.php" type="application/pdf" >-->
+                                    <iframe class="embed-responsive-item" src="http://localhost/serv1/ui/reporteTurno.php" ></iframe> <!--note: no width/height in the iframe -->
 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                    <div
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#collapse14">Informe Dia</a>
+                                </h4>
+                            </div>
+                            <div id="collapse14" class="panel-collapse collapse ">
+                                <div class="panel-body embed-responsive embed-responsive-16by9 " style="height: 300px; ">
+                                    <!--                                        <embed class="embed-responsive-item" name="plugin" id="plugin" src="http://localhost/serv1/ui/reporteTurno.php" type="application/pdf" >-->
+                                    <iframe class="embed-responsive-item" src="http://localhost/serv1/ui/reporteDia.php" ></iframe> <!--note: no width/height in the iframe -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+
+            <!--            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 embed-responsive embed-responsive-16by9">
+                            <embed name="plugin" id="plugin" src="http://localhost/serv1/ui/reporteTurno.php" type="application/pdf" internalinstanceid="6">
+            
+                        </div>-->
+
+
+
 
             <!-- Modal -->
             <div class="modal fade" id="modalPagar" role="dialog">
