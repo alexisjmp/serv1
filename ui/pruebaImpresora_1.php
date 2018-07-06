@@ -11,14 +11,34 @@ else
 document.body.insertAdjacentHTML('beforeEnd', WebBrowser); WebBrowser1.ExecWB(6, -1); WebBrowser1.outerHTML = "";
 }
 }
+  function imprSelec(nombre)
+ 
+  {
+  
+  ////////
+  var ficha = document.getElementById(nombre);
+ 
+  var ventimp = window.open(' ', 'popimpr');
+ 
+  ventimp.document.write( ficha.innerHTML );
+ 
+  ventimp.document.close();
+ 
+  ventimp.print( );
+ 
+  ventimp.close();
+ 
+  } 
 </SCRIPT>
 </HEAD>
-<BODY onload="imprimir();">
+<BODY onload="imprSelec('imprime');">
+    <div id="Imprime" style="display:inline">
     <h1> Lavado MyM Ltda.</h1>
     <p>progesivo </p>
     <p>entadra </p>
     <p>salida </p>
     <p>placa </p>
     <p>importe </p>
+    </div>  
 </BODY>
 </HTML>
